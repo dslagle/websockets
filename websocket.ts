@@ -7,15 +7,12 @@ export class WebsocketManager {
       io.on("connection", (sock) => this.handleConnect(sock));
    }
 
-   send(toClientID: string, event: string, data: any) {
-      const client = this.clients[toClientID];
+   send(fromClientID: string, event: string, data: any) {
+      const to = this.listeners[event];
 
-      if (!client) {
-         console.log(`Failed to send message to disconnected client "${toClientID}"`);
-         return;
+      if (to) {
+         Object.keys(to).map((k) => to[k]).forEach((s) => s.emit(event, data));
       }
-
-      this.clients[toClientID].emit(event, data);
    }
 
    private handleConnect(socket: SocketIO.Socket) {
@@ -41,15 +38,10 @@ export class WebsocketManager {
          if (event === "register") {
             return;
          }
-
          console.log(`Event: ${event}`);
-
          const payload = e.data[1];
-         const to = this.listeners[event];
-
-         if (to) {
-            Object.keys(to).map((k) => to[k]).forEach((s) => s.emit(event, payload));
-         }
+         
+         this.send(socket.client.id, event, payload);
       });
    }
 
