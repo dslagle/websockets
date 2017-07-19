@@ -17,9 +17,9 @@ app.get("/health", (req, res) => {
     res.status(200).json({ hello: "world" });
 });
 app.post("/message", (req, res) => {
+    console.log(req.body);
     const message = req.body.message;
-    const client = req.body.client_id;
-    manager.send(client, "message", message);
+    manager.send("message", message);
     res.status(200).end();
 });
 // server.listen(8888, "0.0.0.0", () => console.log("Listening!"));

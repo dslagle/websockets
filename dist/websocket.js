@@ -6,7 +6,7 @@ class WebsocketManager {
         this.deregisters = {};
         io.on("connection", (sock) => this.handleConnect(sock));
     }
-    send(fromClientID, event, data) {
+    send(event, data) {
         const to = this.listeners[event];
         if (to) {
             Object.keys(to).map((k) => to[k]).forEach((s) => s.emit(event, data));
@@ -33,7 +33,7 @@ class WebsocketManager {
             }
             console.log(`Event: ${event}`);
             const payload = e.data[1];
-            this.send(socket.client.id, event, payload);
+            this.send(event, payload);
         });
     }
     handleDisconnect(socket) {

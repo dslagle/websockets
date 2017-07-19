@@ -23,10 +23,10 @@ app.get("/health", (req, res) => {
 });
 
 app.post("/message", (req, res) => {
+   console.log(req.body);
    const message = req.body.message;
-   const client = req.body.client_id;
 
-   manager.send(client, "message", message);
+   manager.send("message", message);
    res.status(200).end();
 });
 

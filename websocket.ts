@@ -7,7 +7,7 @@ export class WebsocketManager {
       io.on("connection", (sock) => this.handleConnect(sock));
    }
 
-   send(fromClientID: string, event: string, data: any) {
+   send(event: string, data: any) {
       const to = this.listeners[event];
 
       if (to) {
@@ -41,7 +41,7 @@ export class WebsocketManager {
          console.log(`Event: ${event}`);
          const payload = e.data[1];
          
-         this.send(socket.client.id, event, payload);
+         this.send(event, payload);
       });
    }
 
