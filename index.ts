@@ -30,4 +30,8 @@ app.post("/message", (req, res) => {
    res.status(200).end();
 });
 
+app.use((err, req: express.Request, res: express.Response, next: express.NextFunction) => {
+   res.status(200).json({ err });
+});
+
 // server.listen(8888, "0.0.0.0", () => console.log("Listening!"));

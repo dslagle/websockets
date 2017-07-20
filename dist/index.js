@@ -22,4 +22,7 @@ app.post("/message", (req, res) => {
     manager.send("message", message);
     res.status(200).end();
 });
+app.use((err, req, res, next) => {
+    res.status(200).json({ err });
+});
 // server.listen(8888, "0.0.0.0", () => console.log("Listening!"));
